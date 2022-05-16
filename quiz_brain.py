@@ -5,25 +5,26 @@ class QuizBrain:
         self.question_list = question_list
         self.score = 0
 
-    def game(self):
-        while self.question_number != 10:
-            current_question = self.question_number
-            current_question_text = self.question_list[current_question].text
-            current_question_answer = bool(self.question_list[current_question].answer)
-            print(f"Q{current_question + 1}: {current_question_text}")
-            user_answer = input('(True" or "False": )').lower()
-            if user_answer == "true":
-                user_answer = True
-            else:
-                user_answer = False
 
-            if user_answer == current_question_answer:
-                self.score +=1
-                print("You got it right!")
-                print(f"The correct answer was: {current_question_answer}")
-                print(f"Your current score is: {self.score}/{current_question + 1}")
-            else:
-                print("That's wrong.")
-                print(f"The correct answer was: {current_question_answer}")
-                print(f"Your current score is: {self.score}/{current_question + 1}")
-            self.question_number += 1
+    def next_question(self):
+        question = self.question_list[self.question_number]
+        self.question_number += 1
+        user_answer = input(f"Q.{self.question_number}: {question.text} (True/False)?: ")
+        self.check_answer(user_answer, question.answer)
+
+    def still_has_questions(self):
+        return self.question_number < 10
+
+
+    def check_answer(self, user_answer, corret_answer):
+        if user_answer.lower() == corret_answer.lower():
+            print('You got it right!')
+            self.score += 1
+        else:
+            print("That's wrong.")
+            print(f"The correct answer was: {corret_answer}.")
+        print(f"Your current score is: {self.score}/{self.question_number}\n")
+
+    def end_quiz(self):
+        print("You've completed the quiz.")
+        print(f"Your final score was: {self.score}/{self.question_number}")
