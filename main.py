@@ -1,5 +1,11 @@
-import data
-import question_model
-import quiz_brain
+from data import question_data as data
+from question_model import Question
+from quiz_brain import QuizBrain
 
-new_question = question_model.Question(data.question_data[0])
+question_bank = []
+for i in range(len(data)):
+    question_bank.append(Question(data[i]['text'], data[i]['answer']))
+
+quiz = QuizBrain(question_bank)
+quiz.game()
+
